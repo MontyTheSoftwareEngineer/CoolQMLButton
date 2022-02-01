@@ -8,24 +8,10 @@ Rectangle {
 
     state: "button"
 
+    signal buttonClicked()
+
     color: buttonColor
     radius: 5
-
-    Timer {
-        id: progressTimer
-        running: false
-        interval: 60
-        repeat: true
-        onTriggered: {
-            progress += 5
-            if ( progress > 95 )
-            {
-                progressTimer.stop()
-                progress = 0
-                customButton.state = "complete"
-            }
-        }
-    }
 
     Rectangle {
         id: progressPortion
@@ -34,7 +20,7 @@ Rectangle {
             left: parent.left
         }
 
-        visible: false
+        visible: customButton.state === "progress"
         height: parent.height
         width: ( customButton.width * ( progress / 100 ) )
         radius: customButton.radius
@@ -82,7 +68,7 @@ Rectangle {
         onReleased: customButton.color = buttonColor
         onClicked: {
             buttonText.visible = false
-            customButton.state = "progress"
+            customButton.buttonClicked()
         }
     }
 
@@ -108,11 +94,6 @@ Rectangle {
     transitions: Transition {
         NumberAnimation { properties: "width,height"; easing.type: Easing.InOutQuad; duration: 750 }
         onRunningChanged: {
-            if ( state === "progress" && !running)
-            {
-                progressPortion.visible = true
-                progressTimer.running = true
-            }
             if ( state === "complete" && !running)
             {
                 checkImage.state = "showCheck"

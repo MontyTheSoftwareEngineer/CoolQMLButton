@@ -1,6 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include "exampleclass.h"
+
 int main(int argc, char *argv[])
 {
 
@@ -9,6 +11,8 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+
+    qmlRegisterType< ExampleClass >("Monty", 1, 0, "ExampleClass" );
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
