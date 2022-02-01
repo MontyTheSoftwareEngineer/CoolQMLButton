@@ -39,6 +39,10 @@ Rectangle {
         width: ( customButton.width * ( progress / 100 ) )
         radius: customButton.radius
         color: buttonPressedColor
+
+        transitions: Transition {
+            NumberAnimation { properties: "width"; easing.type: Easing.Linear; duration: 10 }
+        }
     }
 
     Text {
